@@ -1,26 +1,18 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import "./globals.css"
-import { ThemeProvider } from "@/hooks/use-theme"
-import { NextIntlClientProvider } from "next-intl"
-import { getMessages } from "next-intl/server"
+// app/layout.tsx
+import './globals.css'
+import { GeistProvider, CssBaseline } from '@geist-ui/core'
+import { NextIntlClientProvider } from 'next-intl'
+import { ThemeProvider } from '../components/ThemeProvider'
+import { getMessages } from '../lib/getMessages' // adjust path if needed
+import { Inter } from 'next/font/google'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
+// Example font
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
-
-export const metadata: Metadata = {
-  title: "Hackademia.uz - Hacker Desktop Interface",
-  description: "A Matrix-inspired desktop interface with draggable windows and cyberpunk themes",
-  keywords: ["hacker", "matrix", "desktop", "cyberpunk", "interface"],
-    generator: 'v0.app'
+export const metadata = {
+  title: 'Hackademia',
+  description: 'Hackademia project',
+  generator: 'v0.app',
 }
 
 export default async function RootLayout({
@@ -30,10 +22,10 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
-  const messages = await getMessages()
+  const messages = await getMessages(locale) // fetch translations/messages
 
   return (
-    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang={locale} className={inter.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
@@ -57,3 +49,4 @@ export default async function RootLayout({
     </html>
   )
 }
+  
